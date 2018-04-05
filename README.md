@@ -1,3 +1,3 @@
 # README #
-version 0.3
-1. Авторизация (логин, пароль: rodion, 12345678; ivan, 12345; nastya, 123456)
+Version: pre-alfa
+added 2 queries: "getAllReviews" and "getSpecUser/{id}"
