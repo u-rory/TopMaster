@@ -13,4 +13,7 @@
     <beans:bean id="specUserServiceImpl"
                 class="net.rory.springserverapp.service.SpecUserServiceImpl"></beans:bean>
 
+    <beans:bean id="userServiceImpl"
+                class="net.rory.springserverapp.service.UserServiceImpl"></beans:bean>
+
 </beans:beans>
