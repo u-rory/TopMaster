@@ -14,3 +14,19 @@ INSERT INTO specusers VALUES (2, 'филипас', 'иван', 'александ
                               'студент, стажа работы нет');
 
 INSERT INTO specsreviews VALUES (2, 1);
+
+INSERT INTO access(nameaccess) VALUES ('Пользователь'), ('Специалист'), ('Модератор');
+
+INSERT INTO users(surname, name, email) VALUES ('Афанасьев', 'Павел', 'pavel@gmail.com');
+
+INSERT INTO usersaccess VALUES (1, 1), (2, 2), (3, 3);
+
+INSERT INTO parameters(nameparameter) VALUES ('Качество услуги'), ('Коммуникация'),
+  ('Конфликтность');
+
+INSERT INTO reviewsparameters(idreview, idparameter, value)
+  VALUES (1, 1, 5), (1, 2, 4), (1, 3, 2);
+
+DELETE FROM reviewsparameters;
+
+DROP TABLE reviewsparameters;

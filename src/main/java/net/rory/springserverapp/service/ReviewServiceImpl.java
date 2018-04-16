@@ -20,4 +20,19 @@ public class ReviewServiceImpl implements ReviewService {
     public List<Review> getAllReviews() {
         return reviewDao.loadReviews();
     }
+
+    @Override
+    public void saveReview(Review review) {
+        reviewDao.saveAndFlush(review);
+    }
+
+    @Override
+    public List<Review> getAllReviewsMod() {
+        return reviewDao.loadReviewsMod();
+    }
+
+    @Override
+    public List<Review> getUserReviewsById(Long id) {
+        return reviewDao.loadUserReviews(id);
+    }
 }

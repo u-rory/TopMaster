@@ -29,14 +29,20 @@ public class User {
     @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
 
+    @ManyToOne()
+    @JoinTable(name = "usersAccess", joinColumns = @JoinColumn(name = "idUser"),
+            inverseJoinColumns = @JoinColumn(name = "idAccess"))
+    private Access access;
+
     public User() {
     }
 
-    public User(String surname, String name, String email, List<Review> reviews) {
+    public User(String surname, String name, String email, List<Review> reviews, Access access) {
         this.surname = surname;
         this.name = name;
         this.email = email;
         this.reviews = reviews;
+        this.access = access;
     }
 
     public Long getIdUser() {
@@ -77,5 +83,13 @@ public class User {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public Access getAccess() {
+        return access;
+    }
+
+    public void setAccess(Access access) {
+        this.access = access;
     }
 }

@@ -15,4 +15,9 @@ public class SpecUserServiceImpl implements SpecUserService {
     public SpecUser getSpecUserById(Long id) {
         return specUserDao.findOne(id);
     }
+
+    @Override
+    public void saveSpecUser(SpecUser specUser) {
+        specUserDao.saveAndFlush(specUser);
+    }
 }

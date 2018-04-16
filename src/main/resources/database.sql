@@ -63,7 +63,9 @@ CREATE TABLE usersAccess (
   FOREIGN KEY (idAccess) REFERENCES access (idAccess)
 );
 
+CREATE SEQUENCE reviewsParameters_id_seq;
 CREATE TABLE reviewsParameters(
+  idReviewsParameters INT NOT NULL DEFAULT nextval('reviewsParameters_id_seq') PRIMARY KEY,
   idReview INT NOT NULL,
   idParameter INT NOT NULL,
   value INT NOT NULL,

@@ -4,6 +4,8 @@ package net.rory.springserverapp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "reviews")
@@ -42,20 +44,22 @@ public class Review {
     @Column(name = "content")
     private String content;
 
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ReviewsParameter> reviewsParameters = new ArrayList<>();
+
     @Column(name = "status")
     private Integer status;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "specsReviews", joinColumns = @JoinColumn(name = "idReview"),
             inverseJoinColumns = @JoinColumn(name = "idUser"))
     @JsonIgnore
     private SpecUser specUser;
 
-
     public Review() {
     }
 
-    public Review(User user, String surname, String name, String otchestvo, Spec spec, String city, String address, String datetime, String content, Integer status, SpecUser specUser) {
+    public Review(User user, String surname, String name, String otchestvo, Spec spec, String city, String address, String datetime, String content, Integer status, SpecUser specUser, List<ReviewsParameter> reviewsParameters) {
         this.user = user;
         this.surname = surname;
         this.name = name;
@@ -67,6 +71,7 @@ public class Review {
         this.content = content;
         this.status = status;
         this.specUser = specUser;
+        this.reviewsParameters = reviewsParameters;
     }
 
     public Long getIdReview() {
@@ -163,5 +168,13 @@ public class Review {
 
     public void setSpecUser(SpecUser specUser) {
         this.specUser = specUser;
+    }
+
+    public List<ReviewsParameter> getReviewsParameters() {
+        return reviewsParameters;
+    }
+
+    public void setReviewsParameters(List<ReviewsParameter> reviewsParameters) {
+        this.reviewsParameters = reviewsParameters;
     }
 }

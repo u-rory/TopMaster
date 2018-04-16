@@ -5,3 +5,4 @@ target/*
 /.war
 /.ear
 /.jar
+/src/main/resources/database.properties
