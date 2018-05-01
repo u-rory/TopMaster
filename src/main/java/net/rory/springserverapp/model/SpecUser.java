@@ -1,14 +1,19 @@
 package net.rory.springserverapp.model;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "specUsers")
+@DynamicInsert
+@DynamicUpdate
 public class SpecUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idUser;
 
     @Column(name = "surname")
@@ -39,7 +44,7 @@ public class SpecUser {
     @Column(name = "info")
     private String info;
 
-    @OneToMany(mappedBy = "specUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "specUser")
     private List<Review> reviews;
 
 

@@ -10,7 +10,11 @@ import javax.persistence.*;
 public class ReviewsParameter {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "reviewsParameters_generator")
+    @SequenceGenerator(name = "reviewsParameters_generator",
+            sequenceName = "reviewsParameters_id_seq",
+            allocationSize = 1)
     @JsonIgnore
     private Long idReviewsParameters;
 

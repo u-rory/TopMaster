@@ -10,12 +10,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ReviewDao extends JpaRepository<Review, Long>{
-    @Query("SELECT r FROM Review r WHERE r.status = 1")
+    @Query("SELECT r FROM Review r WHERE r.status = 1 ORDER BY r.datetime")
     List<Review> loadReviews();
 
-    @Query("SELECT r FROM Review r WHERE r.status = 0")
+    @Query("SELECT r FROM Review r WHERE r.status = 0 ORDER BY r.datetime")
     List<Review> loadReviewsMod();
 
-    @Query("SELECT r FROM Review r WHERE r.user.idUser = :id")
+    @Query("SELECT r FROM Review r WHERE r.user.idUser = :id ORDER BY r.datetime")
     List<Review> loadUserReviews(@Param("id") Long id);
 }

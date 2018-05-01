@@ -12,7 +12,9 @@ import java.util.List;
 public class Review {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_generator")
+    @SequenceGenerator(name="review_generator", sequenceName = "review_id_seq",
+            allocationSize = 1)
     private Long idReview;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -50,7 +52,7 @@ public class Review {
     @Column(name = "status")
     private Integer status;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "specsReviews", joinColumns = @JoinColumn(name = "idReview"),
             inverseJoinColumns = @JoinColumn(name = "idUser"))
     @JsonIgnore

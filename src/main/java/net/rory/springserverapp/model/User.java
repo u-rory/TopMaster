@@ -11,7 +11,9 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
+    @SequenceGenerator(name="user_generator", sequenceName = "user_id_seq",
+            allocationSize = 1)
     private Long idUser;
 
     @Column(name = "surname")

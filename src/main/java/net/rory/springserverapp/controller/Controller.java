@@ -7,7 +7,9 @@ import net.rory.springserverapp.model.Review;
 import net.rory.springserverapp.model.SpecUser;
 import net.rory.springserverapp.model.User;
 import net.rory.springserverapp.service.*;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -42,7 +44,8 @@ public class Controller {
 
     @RequestMapping(value = "/getSpecUser/{id}", method = RequestMethod.GET)
     public SpecUser getSpecUser(@PathVariable(value = "id") Long id) throws IOException {
-        return specUserService.getSpecUserById(id);
+        SpecUser specUser = specUserService.getSpecUserById(id);
+        return specUser;
     }
 
     @RequestMapping(value = "/getAllParameters", method = RequestMethod.GET)
@@ -55,23 +58,22 @@ public class Controller {
         return reviewService.getUserReviewsById(id);
     }
 
-    @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
-    public void saveUser(@RequestParam("User") String str) throws IOException {
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public User login(@RequestParam("User") String str) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         User user = objectMapper.readValue(str, User.class);
-        userService.saveUser(user);
+        Long userToCheck = userService.getUser(user.getSurname(),
+                    user.getName(), user.getEmail());
+        if (userToCheck == 0) {
+            userService.saveUser(user);
+        }
+        return userService.loadUserByEmail(user.getEmail());
     }
 
     @RequestMapping(value = "/saveReview", method = RequestMethod.POST)
     public void saveReview(@RequestParam("Review") String str) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Review review = objectMapper.readValue(str, Review.class);
-
-        Date dateNow = new Date();
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
-
-        review.setDatetime(formatForDateNow.format(dateNow));
-        review.setStatus(0);
         reviewService.saveReview(review);
     }
 
@@ -80,6 +82,21 @@ public class Controller {
         ObjectMapper objectMapper = new ObjectMapper();
         SpecUser specUser = objectMapper.readValue(str, SpecUser.class);
         specUserService.saveSpecUser(specUser);
+    }
+
+    @RequestMapping(value = "/updateSpecUser", method = RequestMethod.POST)
+    public void updateSpecUser(@RequestParam("SpecUser") String str) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        SpecUser specUser = objectMapper.readValue(str, SpecUser.class);
+        specUserService.changeSpecUserInfo(specUser);
+    }
+
+    @RequestMapping(value = "/publishReview", method = RequestMethod.POST)
+    public void publishReview(@RequestParam("Review") String str) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Review review = objectMapper.readValue(str, Review.class);
+        review.setStatus(1);
+        reviewService.saveReview(review);
     }
 
 }
