@@ -1,20 +1,17 @@
 package net.rory.springserverapp.controller;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.rory.springserverapp.model.Parameter;
 import net.rory.springserverapp.model.Review;
+import net.rory.springserverapp.model.Spec;
 import net.rory.springserverapp.model.SpecUser;
 import net.rory.springserverapp.model.User;
 import net.rory.springserverapp.service.*;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -29,9 +26,6 @@ public class Controller {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ParameterService parameterService;
-
     @RequestMapping(value = "/getAllReviews", method = RequestMethod.GET)
     public List<Review> getAllReviews() throws IOException {
         return reviewService.getAllReviews();
@@ -44,13 +38,7 @@ public class Controller {
 
     @RequestMapping(value = "/getSpecUser/{id}", method = RequestMethod.GET)
     public SpecUser getSpecUser(@PathVariable(value = "id") Long id) throws IOException {
-        SpecUser specUser = specUserService.getSpecUserById(id);
-        return specUser;
-    }
-
-    @RequestMapping(value = "/getAllParameters", method = RequestMethod.GET)
-    public List<Parameter> getAllParameters() throws IOException {
-        return parameterService.getAllParameters();
+        return specUserService.getSpecUserById(id);
     }
 
     @RequestMapping(value = "/getUserReviews/{id}", method = RequestMethod.GET)
@@ -95,8 +83,31 @@ public class Controller {
     public void publishReview(@RequestParam("Review") String str) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Review review = objectMapper.readValue(str, Review.class);
-        review.setStatus(1);
-        reviewService.saveReview(review);
+
+        reviewService.publishReview(review);
     }
 
+    @RequestMapping(value = "/getSuitableReviews", method = RequestMethod.GET)
+    public @ResponseBody List<Review> getSuitableReviews(
+            @RequestParam("SpecUser") String str) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        SpecUser specUser = objectMapper.readValue(str, SpecUser.class);
+        return reviewService.getSuitableReviews(specUser.getSurname(),
+                specUser.getName(),
+                specUser.getOtchestvo(),
+                specUser.getSpecName(),
+                specUser.getCity(),
+                specUser.getAddress(),
+                specUser.getOnCall());
+    }
+
+    @RequestMapping(value = "/addSpecReview", method = RequestMethod.POST)
+    public void addSpecReview(@RequestParam("SpecReview") String str) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(str);
+        JsonNode idSpecUser = rootNode.path("idSpecUser");
+        JsonNode idReview = rootNode.path("idReview");
+
+        specUserService.addSpecReviews(idSpecUser.asLong(), idReview.asLong());
+    }
 }

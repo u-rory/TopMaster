@@ -1,16 +1,18 @@
 package net.rory.springserverapp.service;
 
-import net.rory.springserverapp.dao.SpecDao;
+import net.rory.springserverapp.dao.ReviewDao;
 import net.rory.springserverapp.dao.SpecUserDao;
 import net.rory.springserverapp.dao.UserDao;
-import net.rory.springserverapp.model.Spec;
+import net.rory.springserverapp.model.Review;
 import net.rory.springserverapp.model.SpecUser;
 import net.rory.springserverapp.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class SpecUserServiceImpl implements SpecUserService {
@@ -22,7 +24,7 @@ public class SpecUserServiceImpl implements SpecUserService {
     UserDao userDao;
 
     @Autowired
-    SpecDao specDao;
+    ReviewDao reviewDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -35,8 +37,6 @@ public class SpecUserServiceImpl implements SpecUserService {
         User user = userDao.findUserByEmail(specUser.getEmail());
         specUser.setIdUser(user.getIdUser());
 
-        Spec spec = specDao.findSpecByName(specUser.getSpec().getNameSpec());
-        specUser.setSpec(spec);
         specUserDao.saveAndFlush(specUser);
     }
 
@@ -45,8 +45,20 @@ public class SpecUserServiceImpl implements SpecUserService {
         User user = userDao.findUserByEmail(specUser.getEmail());
         specUser.setIdUser(user.getIdUser());
 
-        Spec spec = specDao.findSpecByName(specUser.getSpec().getNameSpec());
-        specUser.setSpec(spec);
         specUserDao.save(specUser);
+    }
+
+    @Override
+    public void addSpecReviews(Long idSpecUser, Long idReview) {
+        SpecUser specUser = specUserDao.findOne(idSpecUser);
+        Review review = reviewDao.findOne(idReview);
+        List<Review> reviewList = new ArrayList<>();
+
+        reviewList.add(review);
+        specUser.setReviews(reviewList);
+
+        review.setSpecUser(specUser);
+
+        specUserDao.saveAndFlush(specUser);
     }
 }

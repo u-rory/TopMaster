@@ -16,10 +16,4 @@
     <beans:bean id="userServiceImpl"
                 class="net.rory.springserverapp.service.UserServiceImpl"></beans:bean>
 
-    <beans:bean id="parameterServiceImpl"
-                class="net.rory.springserverapp.service.ParameterServiceImpl"></beans:bean>
-
-    <beans:bean id="specServiceImpl"
-                class="net.rory.springserverapp.service.SpecServiceImpl"></beans:bean>
-
 </beans:beans>

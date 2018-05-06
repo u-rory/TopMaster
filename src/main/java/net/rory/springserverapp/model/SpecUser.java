@@ -2,7 +2,6 @@ package net.rory.springserverapp.model;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,12 +27,11 @@ public class SpecUser {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "number")
-    private String number;
+    @Column(name = "onCall")
+    private Integer onCall;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idSpec", nullable = false)
-    private Spec spec;
+    @Column(name = "specName")
+    private String specName;
 
     @Column(name = "city")
     private String city;
@@ -44,20 +42,20 @@ public class SpecUser {
     @Column(name = "info")
     private String info;
 
-    @OneToMany(mappedBy = "specUser")
+    @OneToMany(mappedBy = "specUser", cascade = CascadeType.ALL)
     private List<Review> reviews;
-
 
     public SpecUser() {
     }
 
-    public SpecUser(String surname, String name, String otchestvo, String email, String number, Spec spec, String city, String address, String info, List<Review> reviews) {
+    public SpecUser(Long idUser, String surname, String name, String otchestvo, String email, Integer onCall, String specName, String city, String address, String info, List<Review> reviews) {
+        this.idUser = idUser;
         this.surname = surname;
         this.name = name;
         this.otchestvo = otchestvo;
         this.email = email;
-        this.number = number;
-        this.spec = spec;
+        this.onCall = onCall;
+        this.specName = specName;
         this.city = city;
         this.address = address;
         this.info = info;
@@ -104,20 +102,20 @@ public class SpecUser {
         this.email = email;
     }
 
-    public String getNumber() {
-        return number;
+    public Integer getOnCall() {
+        return onCall;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setOnCall(Integer onCall) {
+        this.onCall = onCall;
     }
 
-    public Spec getSpec() {
-        return spec;
+    public String getSpecName() {
+        return specName;
     }
 
-    public void setSpec(Spec spec) {
-        this.spec = spec;
+    public void setSpecName(String specName) {
+        this.specName = specName;
     }
 
     public String getCity() {

@@ -1,10 +1,9 @@
 package net.rory.springserverapp.service;
 
 
-import net.rory.springserverapp.model.Spec;
+import net.rory.springserverapp.model.Review;
 import net.rory.springserverapp.model.SpecUser;
 
-import java.util.List;
 
 public interface SpecUserService {
     SpecUser getSpecUserById(Long id);
@@ -12,4 +11,6 @@ public interface SpecUserService {
     void saveSpecUser(SpecUser specUser);
 
     void changeSpecUserInfo(SpecUser specUser);
+
+    void addSpecReviews(Long idSpecUser, Long idReview);
 }

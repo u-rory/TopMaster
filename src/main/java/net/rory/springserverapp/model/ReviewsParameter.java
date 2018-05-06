@@ -15,7 +15,6 @@ public class ReviewsParameter {
     @SequenceGenerator(name = "reviewsParameters_generator",
             sequenceName = "reviewsParameters_id_seq",
             allocationSize = 1)
-    @JsonIgnore
     private Long idReviewsParameters;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -23,9 +22,8 @@ public class ReviewsParameter {
     @JsonIgnore
     private Review review;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "idParameter")
-    private Parameter parameter;
+    @Column(name = "parameterName")
+    private String parameterName;
 
     @Column(name = "value")
     private Integer value;
@@ -33,17 +31,17 @@ public class ReviewsParameter {
     public ReviewsParameter() {
     }
 
-    public ReviewsParameter(Review review, Parameter parameter, Integer value) {
+    public ReviewsParameter(Review review, String parameterName, Integer value) {
         this.review = review;
-        this.parameter = parameter;
+        this.parameterName = parameterName;
         this.value = value;
     }
 
-    public Long getIdReviewParameter() {
+    public Long getIdReviewsParameters() {
         return idReviewsParameters;
     }
 
-    public void setIdReviewParameter(Long idReviewsParameters) {
+    public void setIdReviewsParameters(Long idReviewsParameters) {
         this.idReviewsParameters = idReviewsParameters;
     }
 
@@ -55,12 +53,12 @@ public class ReviewsParameter {
         this.review = review;
     }
 
-    public Parameter getParameter() {
-        return parameter;
+    public String getParameterName() {
+        return parameterName;
     }
 
-    public void setParameter(Parameter parameter) {
-        this.parameter = parameter;
+    public void setParameterName(String parameterName) {
+        this.parameterName = parameterName;
     }
 
     public Integer getValue() {

@@ -1,10 +1,12 @@
 package net.rory.springserverapp.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -30,9 +32,8 @@ public class Review {
     @Column(name = "otchestvo")
     private String otchestvo;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idSpec", nullable = false)
-    private Spec spec;
+    @Column(name = "specName")
+    private String specName;
 
     @Column(name = "city")
     private String city;
@@ -40,8 +41,14 @@ public class Review {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "onCall")
+    private Integer onCall;
+
     @Column(name = "datetime")
-    private String datetime;
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy",
+            timezone = "Asia/Tomsk")
+    private Date datetime;
 
     @Column(name = "content")
     private String content;
@@ -52,28 +59,29 @@ public class Review {
     @Column(name = "status")
     private Integer status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "specsReviews", joinColumns = @JoinColumn(name = "idReview"),
-            inverseJoinColumns = @JoinColumn(name = "idUser"))
+            inverseJoinColumns = @JoinColumn(name = "idSpecUser"))
     @JsonIgnore
     private SpecUser specUser;
 
     public Review() {
     }
 
-    public Review(User user, String surname, String name, String otchestvo, Spec spec, String city, String address, String datetime, String content, Integer status, SpecUser specUser, List<ReviewsParameter> reviewsParameters) {
+    public Review(User user, String surname, String name, String otchestvo, String specName, String city, String address, Integer onCall, Date datetime, String content, List<ReviewsParameter> reviewsParameters, Integer status, SpecUser specUser) {
         this.user = user;
         this.surname = surname;
         this.name = name;
         this.otchestvo = otchestvo;
-        this.spec = spec;
+        this.specName = specName;
         this.city = city;
         this.address = address;
+        this.onCall = onCall;
         this.datetime = datetime;
         this.content = content;
+        this.reviewsParameters = reviewsParameters;
         this.status = status;
         this.specUser = specUser;
-        this.reviewsParameters = reviewsParameters;
     }
 
     public Long getIdReview() {
@@ -116,12 +124,12 @@ public class Review {
         this.otchestvo = otchestvo;
     }
 
-    public Spec getSpec() {
-        return spec;
+    public String getSpecName() {
+        return specName;
     }
 
-    public void setSpec(Spec spec) {
-        this.spec = spec;
+    public void setSpecName(String specName) {
+        this.specName = specName;
     }
 
     public String getCity() {
@@ -140,11 +148,19 @@ public class Review {
         this.address = address;
     }
 
-    public String getDatetime() {
+    public Integer getOnCall() {
+        return onCall;
+    }
+
+    public void setOnCall(Integer onCall) {
+        this.onCall = onCall;
+    }
+
+    public Date getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(String datetime) {
+    public void setDatetime(Date datetime) {
         this.datetime = datetime;
     }
 
@@ -154,6 +170,14 @@ public class Review {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public List<ReviewsParameter> getReviewsParameters() {
+        return reviewsParameters;
+    }
+
+    public void setReviewsParameters(List<ReviewsParameter> reviewsParameters) {
+        this.reviewsParameters = reviewsParameters;
     }
 
     public Integer getStatus() {
@@ -170,13 +194,5 @@ public class Review {
 
     public void setSpecUser(SpecUser specUser) {
         this.specUser = specUser;
-    }
-
-    public List<ReviewsParameter> getReviewsParameters() {
-        return reviewsParameters;
-    }
-
-    public void setReviewsParameters(List<ReviewsParameter> reviewsParameters) {
-        this.reviewsParameters = reviewsParameters;
     }
 }

@@ -7,11 +7,11 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "spec")
+//@Entity
+//@Table(name = "spec")
 public class Spec {
 
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idSpec;
 
@@ -23,8 +23,8 @@ public class Spec {
             mappedBy = "spec")
     @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
-    
-    
+
+
 
     public Spec() {
     }
@@ -56,6 +56,6 @@ public class Spec {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
-    }
+    }*/
 
 }

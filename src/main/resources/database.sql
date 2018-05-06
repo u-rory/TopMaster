@@ -18,13 +18,12 @@ CREATE TABLE specUsers(
   name VARCHAR NOT NULL,
   otchestvo VARCHAR,
   email VARCHAR NOT NULL,
-  number VARCHAR,
-  idSpec INT NOT NULL,
+  onCall INT,
+  specName VARCHAR NOT NULL,
   city VARCHAR NOT NULL,
-  address VARCHAR NOT NULL,
+  address VARCHAR,
   info VARCHAR,
-  FOREIGN KEY (idUser) REFERENCES users(idUser),
-  FOREIGN KEY (idSpec) REFERENCES spec(idSpec)
+  FOREIGN KEY (idUser) REFERENCES users(idUser)
 );
 
 CREATE SEQUENCE parameter_id_seq;
@@ -46,14 +45,14 @@ CREATE TABLE reviews(
   surname VARCHAR NOT NULL,
   name VARCHAR NOT NULL,
   otchestvo VARCHAR,
-  idSpec INT NOT NULL,
+  specName VARCHAR NOT NULL,
   city VARCHAR NOT NULL,
-  address VARCHAR NOT NULL,
+  address VARCHAR,
+  onCall INT,
   dateTime VARCHAR NOT NULL,
   content VARCHAR NOT NULL,
   status INT NOT NULL,
-  FOREIGN KEY (idUser) REFERENCES users(idUser),
-  FOREIGN KEY (idSpec) REFERENCES spec(idSpec)
+  FOREIGN KEY (idUser) REFERENCES users(idUser)
 );
 
 CREATE TABLE usersAccess (
@@ -67,15 +66,14 @@ CREATE SEQUENCE reviewsParameters_id_seq;
 CREATE TABLE reviewsParameters(
   idReviewsParameters INT NOT NULL DEFAULT nextval('reviewsParameters_id_seq') PRIMARY KEY,
   idReview INT NOT NULL,
-  idParameter INT NOT NULL,
+  parameterName VARCHAR NOT NULL,
   value INT NOT NULL,
-  FOREIGN KEY (idReview) REFERENCES reviews(idReview),
-  FOREIGN KEY (idParameter) REFERENCES parameters(idParameter)
+  FOREIGN KEY (idReview) REFERENCES reviews(idReview)
 );
 
 CREATE TABLE specsReviews(
-  idUser INT NOT NULL,
+  idSpecUser INT NOT NULL,
   idReview INT NOT NULL UNIQUE,
   FOREIGN KEY (idReview) REFERENCES reviews(idReview),
-  FOREIGN KEY (idUser) REFERENCES specUsers(idUser)
+  FOREIGN KEY (idSpecUser) REFERENCES specUsers(idUser)
 );
