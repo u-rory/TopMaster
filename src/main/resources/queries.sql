@@ -71,3 +71,5 @@ ALTER TABLE reviews ALTER COLUMN specname SET NOT NULL;
 DELETE FROM reviewsparameters WHERE idreviewsparameters BETWEEN 19 AND 42;
 
 DELETE FROM reviews WHERE idreview = 9;
+
+ALTER TABLE reviewsparameters ALTER COLUMN value TYPE FLOAT;

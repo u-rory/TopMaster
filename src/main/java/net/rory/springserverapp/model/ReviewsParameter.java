@@ -26,12 +26,12 @@ public class ReviewsParameter {
     private String parameterName;
 
     @Column(name = "value")
-    private Integer value;
+    private Float value;
 
     public ReviewsParameter() {
     }
 
-    public ReviewsParameter(Review review, String parameterName, Integer value) {
+    public ReviewsParameter(Review review, String parameterName, Float value) {
         this.review = review;
         this.parameterName = parameterName;
         this.value = value;
@@ -61,11 +61,11 @@ public class ReviewsParameter {
         this.parameterName = parameterName;
     }
 
-    public Integer getValue() {
+    public Float getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Float value) {
         this.value = value;
     }
 }
