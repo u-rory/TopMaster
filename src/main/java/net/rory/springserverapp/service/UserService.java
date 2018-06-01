@@ -9,4 +9,6 @@ public interface UserService {
     Long getUser(String surname, String name, String email);
 
     User loadUserByEmail(String email);
+
+    User loadUserById(Long id);
 }

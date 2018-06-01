@@ -1,74 +1,48 @@
-package net.rory.springserverapp.model;
+package net.rory.springserverapp.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import net.rory.springserverapp.model.ReviewsParameter;
+import net.rory.springserverapp.model.User;
 
-import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "reviews")
-public class Review {
+public class ReviewDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_generator")
-    @SequenceGenerator(name="review_generator", sequenceName = "review_id_seq",
-            allocationSize = 1)
     private Long idReview;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idUser")
     private User user;
 
-    @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "otchestvo")
     private String otchestvo;
 
-    @Column(name = "specName", nullable = false)
     private String specName;
 
-    @Column(name = "city", nullable = false)
     private String city;
 
-    @Column(name = "address")
     private String address;
 
-    @Column(name = "onCall")
     private Integer onCall;
 
-    @Column(name = "datetime")
-    @Temporal(TemporalType.DATE)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy",
-            timezone = "Asia/Tomsk")
     private Date datetime;
 
-    @Column(name = "content", nullable = false)
     private String content;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ReviewsParameter> reviewsParameters = new ArrayList<>();
 
-    @Column(name = "status")
     private Integer status;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "specsReviews", joinColumns = @JoinColumn(name = "idReview"),
-            inverseJoinColumns = @JoinColumn(name = "idSpecUser"))
-    @JsonIgnore
-    private SpecUser specUser;
+    private Long idSpecUser;
 
-    public Review() {
+    public ReviewDto() {
     }
 
-    public Review(User user, String surname, String name, String otchestvo, String specName, String city, String address, Integer onCall, Date datetime, String content, List<ReviewsParameter> reviewsParameters, Integer status, SpecUser specUser) {
+    public ReviewDto(Long idReview, User user, String surname, String name, String otchestvo, String specName, String city, String address, Integer onCall, Date datetime, String content, List<ReviewsParameter> reviewsParameters, Integer status, Long idSpecUser) {
+        this.idReview = idReview;
         this.user = user;
         this.surname = surname;
         this.name = name;
@@ -81,7 +55,23 @@ public class Review {
         this.content = content;
         this.reviewsParameters = reviewsParameters;
         this.status = status;
-        this.specUser = specUser;
+        this.idSpecUser = idSpecUser;
+    }
+
+    public ReviewDto(Long idReview, User user, String surname, String name, String otchestvo, String specName, String city, String address, Integer onCall, Date datetime, String content, List<ReviewsParameter> reviewsParameters, Integer status) {
+        this.idReview = idReview;
+        this.user = user;
+        this.surname = surname;
+        this.name = name;
+        this.otchestvo = otchestvo;
+        this.specName = specName;
+        this.city = city;
+        this.address = address;
+        this.onCall = onCall;
+        this.datetime = datetime;
+        this.content = content;
+        this.reviewsParameters = reviewsParameters;
+        this.status = status;
     }
 
     public Long getIdReview() {
@@ -188,11 +178,11 @@ public class Review {
         this.status = status;
     }
 
-    public SpecUser getSpecUser() {
-        return specUser;
+    public Long getIdSpecUser() {
+        return idSpecUser;
     }
 
-    public void setSpecUser(SpecUser specUser) {
-        this.specUser = specUser;
+    public void setIdSpecUser(Long idSpecUser) {
+        this.idSpecUser = idSpecUser;
     }
 }

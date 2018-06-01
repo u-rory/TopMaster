@@ -3,12 +3,16 @@ package net.rory.springserverapp.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.rory.springserverapp.model.Review;
-import net.rory.springserverapp.model.Spec;
-import net.rory.springserverapp.model.SpecUser;
-import net.rory.springserverapp.model.User;
+import net.rory.springserverapp.dto.ReviewDto;
+import net.rory.springserverapp.model.*;
 import net.rory.springserverapp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageType;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -26,8 +30,11 @@ public class Controller {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     @RequestMapping(value = "/getAllReviews", method = RequestMethod.GET)
-    public List<Review> getAllReviews() throws IOException {
+    public List<ReviewDto> getAllReviews() throws IOException {
         return reviewService.getAllReviews();
     }
 
@@ -87,6 +94,12 @@ public class Controller {
         reviewService.publishReview(review);
     }
 
+    @RequestMapping(value = "/deleteReview", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void deleteReview(@RequestParam("idReview") Long id) throws IOException {
+        reviewService.deleteReview(id);
+    }
+
     @RequestMapping(value = "/getSuitableReviews", method = RequestMethod.GET)
     public @ResponseBody List<Review> getSuitableReviews(
             @RequestParam("SpecUser") String str) throws IOException {
@@ -110,4 +123,16 @@ public class Controller {
 
         specUserService.addSpecReviews(idSpecUser.asLong(), idReview.asLong());
     }
+
+    /*@MessageMapping("/hello")
+    public void sendMessage(Message message) throws  Exception {
+        User user = userService.loadUserById(message.getIdUserTo());
+        SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor
+                .create(SimpMessageType.MESSAGE);
+        headerAccessor.setSessionId(sessionId);
+        headerAccessor.setLeaveMutable(true);
+
+        messagingTemplate.convertAndSendToUser(sessionId,"/queue/something", payload,
+                headerAccessor.getMessageHeaders());
+    }*/
 }

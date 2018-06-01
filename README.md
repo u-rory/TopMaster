@@ -52,3 +52,10 @@ Version: pre-relise
 getSuitableReviews - получить список подходящих к специалисту отзывов для добавления в личный кабинет (GET запрос параметром SpecUser)
 
 addSpecReview - добавить отзыв в личный кабинет (POST запрос с параметром SpecReview: {"idSpecUser":id,"idReview":id})
+
+UPDATE #5
+Version: pre-relise 0.1
+
+1. Изменён метод getAllReviews (добавлено поле idSpecUser)
+
+2. Добавлен метод deleteReview (POST запрос с параметром idReview)

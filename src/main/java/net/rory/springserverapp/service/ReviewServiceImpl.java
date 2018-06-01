@@ -2,6 +2,7 @@ package net.rory.springserverapp.service;
 
 
 import net.rory.springserverapp.dao.ReviewDao;
+import net.rory.springserverapp.dto.ReviewDto;
 import net.rory.springserverapp.model.Review;
 import net.rory.springserverapp.model.ReviewsParameter;
 import net.rory.springserverapp.model.Spec;
@@ -9,6 +10,7 @@ import net.rory.springserverapp.model.SpecUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,8 +22,46 @@ public class ReviewServiceImpl implements ReviewService {
     ReviewDao reviewDao;
 
     @Override
-    public List<Review> getAllReviews() {
-        return reviewDao.loadReviews();
+    public List<ReviewDto> getAllReviews() {
+        List<Review> reviewList = reviewDao.loadReviews();
+
+        List<ReviewDto> reviewDtoList = new ArrayList<>();
+
+        for (int i = 0; i < reviewList.size(); i++) {
+            if (reviewList.get(i).getSpecUser() == null) {
+                reviewDtoList.add(new ReviewDto(reviewList.get(i).getIdReview(),
+                        reviewList.get(i).getUser(),
+                        reviewList.get(i).getSurname(),
+                        reviewList.get(i).getName(),
+                        reviewList.get(i).getOtchestvo(),
+                        reviewList.get(i).getSpecName(),
+                        reviewList.get(i).getCity(),
+                        reviewList.get(i).getAddress(),
+                        reviewList.get(i).getOnCall(),
+                        reviewList.get(i).getDatetime(),
+                        reviewList.get(i).getContent(),
+                        reviewList.get(i).getReviewsParameters(),
+                        reviewList.get(i).getStatus()));
+            }
+            else {
+                reviewDtoList.add(new ReviewDto(reviewList.get(i).getIdReview(),
+                        reviewList.get(i).getUser(),
+                        reviewList.get(i).getSurname(),
+                        reviewList.get(i).getName(),
+                        reviewList.get(i).getOtchestvo(),
+                        reviewList.get(i).getSpecName(),
+                        reviewList.get(i).getCity(),
+                        reviewList.get(i).getAddress(),
+                        reviewList.get(i).getOnCall(),
+                        reviewList.get(i).getDatetime(),
+                        reviewList.get(i).getContent(),
+                        reviewList.get(i).getReviewsParameters(),
+                        reviewList.get(i).getStatus(),
+                        reviewList.get(i).getSpecUser().getIdUser()));
+            }
+        }
+
+        return reviewDtoList;
     }
 
     @Override
@@ -64,6 +104,11 @@ public class ReviewServiceImpl implements ReviewService {
         review.setStatus(1);
 
         reviewDao.save(review);
+    }
+
+    @Override
+    public void deleteReview(Long id) {
+        reviewDao.delete(id);
     }
 
     @Override

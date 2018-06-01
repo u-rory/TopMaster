@@ -1,13 +1,14 @@
 package net.rory.springserverapp.service;
 
 
+import net.rory.springserverapp.dto.ReviewDto;
 import net.rory.springserverapp.model.Review;
 import net.rory.springserverapp.model.SpecUser;
 
 import java.util.List;
 
 public interface ReviewService {
-    List<Review> getAllReviews();
+    List<ReviewDto> getAllReviews();
 
     List<Review> getSuitableReviews(String surname,
                                     String name,
@@ -24,4 +25,6 @@ public interface ReviewService {
     List<Review> getAllReviewsMod();
 
     List<Review> getUserReviewsById(Long id);
+
+    void deleteReview(Long id);
 }

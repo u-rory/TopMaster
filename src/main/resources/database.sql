@@ -49,7 +49,7 @@ CREATE TABLE reviews(
   city VARCHAR NOT NULL,
   address VARCHAR,
   onCall INT,
-  dateTime VARCHAR NOT NULL,
+  dateTime DATE NOT NULL,
   content VARCHAR NOT NULL,
   status INT NOT NULL,
   FOREIGN KEY (idUser) REFERENCES users(idUser)
@@ -76,4 +76,22 @@ CREATE TABLE specsReviews(
   idReview INT NOT NULL UNIQUE,
   FOREIGN KEY (idReview) REFERENCES reviews(idReview),
   FOREIGN KEY (idSpecUser) REFERENCES specUsers(idUser)
+);
+
+CREATE SEQUENCE messages_id_seq;
+CREATE TABLE messages(
+  idMessage INT NOT NULL DEFAULT nextval('messages_id_seq') PRIMARY KEY,
+  idUserFrom INT NOT NULL,
+  idUserTo INT NOT NULL,
+  content VARCHAR NOT NULL,
+  datetime DATE NOT NULL,
+  FOREIGN KEY (idUserFrom) REFERENCES users(idUser),
+  FOREIGN KEY (idUserTo) REFERENCES users(idUser)
+);
+
+CREATE TABLE chats(
+  idUserFrom INT NOT NULL,
+  idUserTo INT NOT NULL,
+  FOREIGN KEY (idUserFrom) REFERENCES users(idUser),
+  FOREIGN KEY (idUserTo) REFERENCES users(idUser)
 );

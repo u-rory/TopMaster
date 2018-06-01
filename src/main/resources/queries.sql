@@ -73,3 +73,14 @@ DELETE FROM reviewsparameters WHERE idreviewsparameters BETWEEN 19 AND 42;
 DELETE FROM reviews WHERE idreview = 9;
 
 ALTER TABLE reviewsparameters ALTER COLUMN value TYPE FLOAT;
+
+SELECT * from specusers WHERE iduser = 5;
+
+DELETE FROM reviews WHERE idreview = 16;
+
+UPDATE usersaccess SET idaccess = 3 WHERE iduser = 7;
+
+UPDATE reviews SET status = 1 WHERE idreview = 24;
+
+DELETE FROM specusers;
+
