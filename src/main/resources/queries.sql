@@ -76,11 +76,14 @@ ALTER TABLE reviewsparameters ALTER COLUMN value TYPE FLOAT;
 
 SELECT * from specusers WHERE iduser = 5;
 
-DELETE FROM reviews WHERE idreview = 16;
+DELETE FROM reviewsparameters WHERE idreview = 34;
+DELETE FROM specsreviews WHERE idreview = 21;
+DELETE FROM reviews WHERE idreview = 34;
 
 UPDATE usersaccess SET idaccess = 3 WHERE iduser = 7;
 
 UPDATE reviews SET status = 1 WHERE idreview = 24;
 
 DELETE FROM specusers;
+
 

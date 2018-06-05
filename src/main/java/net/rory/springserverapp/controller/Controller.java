@@ -72,6 +72,13 @@ public class Controller {
         reviewService.saveReview(review);
     }
 
+    @RequestMapping(value = "/updateReview", method = RequestMethod.POST)
+    public void updateReview(@RequestParam("Review") String str) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Review review = objectMapper.readValue(str, Review.class);
+        reviewService.saveReview(review);
+    }
+
     @RequestMapping(value = "/saveSpecUser", method = RequestMethod.POST)
     public void saveSpecUser(@RequestParam("SpecUser") String str) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
