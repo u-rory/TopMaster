@@ -1,6 +1,7 @@
 package net.rory.springserverapp.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import net.rory.springserverapp.model.ReviewsParameter;
 import net.rory.springserverapp.model.User;
 
@@ -28,6 +29,8 @@ public class ReviewDto {
 
     private Integer onCall;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy",
+            timezone = "Asia/Tomsk")
     private Date datetime;
 
     private String content;
