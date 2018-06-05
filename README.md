@@ -58,4 +58,8 @@ Version: pre-relise 0.1
 
 1. Изменён метод getAllReviews (добавлено поле idSpecUser)
 
-2. Добавлен метод deleteReview (POST запрос с параметром idReview)
+2. Добавлены методы:
+
+deleteReview (POST запрос с параметром idReview)
+
+updateReview (POST запрос с параметром Review, необходимо заполнить ВСЕ поля, даже те, которые не изменились)
